@@ -11,7 +11,7 @@ class Product extends Model {}
 Product.init(
   {
     // define columns
-    product_id: {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -37,7 +37,7 @@ Product.init(
       },
     },
     category_id: {
-      type: DataTypes.Integer,
+      type: DataTypes.INTEGER,
       references: {
         model: CategoryModel,
         key: 'id',
