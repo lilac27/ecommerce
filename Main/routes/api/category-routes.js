@@ -52,7 +52,6 @@ router.put('/:id', (req, res) => {
       category_name: req.body.category_name,
     },
     {
-      // Gets a book based on the book_id given in the request parameters
       where: {
         id: req.params.id,
       },
@@ -62,7 +61,7 @@ router.put('/:id', (req, res) => {
       res.json(updatedCategory);
     })
     .catch((err) => {
-      console.log(err);
+      console.error('this is error----------------', err.message);
       res.json(err);
     });
 });
@@ -77,7 +76,9 @@ router.delete('/:id', (req, res) => {
     .then((deletedCategory) => {
       res.json(deletedCategory);
     })
-    .catch((err) => res.json(err));
+    .catch((err) => {
+      console.error('this is error----------------', err.message);
+      res.json(err)});
 });
 
 module.exports = router;

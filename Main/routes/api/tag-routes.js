@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
     const tagData = await Tag.create(req.body);
     res.status(200).json(tagData);
   } catch (err) {
+    console.error('this is error----------------', err.message);
     res.status(400).json(err);
   }
 });
@@ -62,6 +63,7 @@ router.put('/:id', (req, res) => {
       res.json(updatedTag);
     })
     .catch((err) => {
+      console.error('this is error----------------', err.message);
       console.log(err);
       res.json(err);
     });
@@ -77,7 +79,9 @@ router.delete('/:id', (req, res) => {
     .then((deletedTag) => {
       res.json(deletedTag);
     })
-    .catch((err) => res.json(err));
+    .catch((err) => {
+      console.error('this is error----------------', err.message);
+      res.json(err)});
 });
 
 module.exports = router;
