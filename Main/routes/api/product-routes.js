@@ -4,15 +4,18 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // The `/api/products` endpoint
 
 // get all products
-router.get('/products', async (req, res) => {
+router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findAll({
-    include: [{ model: Category, through: ProductTag, as: 'product_category'}]
-    });
+      include: [
+        { model: Category, as: 'category' }, // Use 'category' as the alias
+        { model: Tag, through: ProductTag, as: 'tags' }, // Include the Tag model with the alias 'tags'
+  ]});
     res.status(200).json(productData);
   } catch (err) {
+    console.error('this is error----------------', err.message);
     res.status(500).json(err);
   }
 });
@@ -23,7 +26,7 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{ model: Category, through: ProductTag, as: 'product_category'}]
+      include: [{ model: Category, as: 'category' }], // Use 'category' as the alias
     });
 
     if (!productData) {
@@ -112,7 +115,7 @@ router.delete('/:id', async (req, res) => {
       res.status(404).json({ message: 'No product with this id!' });
       return;
     }
-    res.status(200).json(tripData);
+    res.status(200).json(productData);
   } catch (err) {
     res.status(500).json(err);
   }
