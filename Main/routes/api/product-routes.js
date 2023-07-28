@@ -72,10 +72,10 @@ router.put('/:id', (req, res) => {
     },
   })
     .then((product) => {
+      if (req.body.tagIds&&req.body.tagIds.length) {
       // find all associated tags from ProductTag
-      return ProductTag.findAll({ where: { id: req.params.id } });
-    })
-    .then((productTags) => {
+      const productTags = ProductTag.findAll({ where: { id: req.params.id } });
+    // }) 
       // get list of current tag_ids
       const productTagIds = productTags.map(({ tag_id }) => tag_id);
       // create filtered list of new tag_ids
@@ -97,8 +97,10 @@ router.put('/:id', (req, res) => {
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
         ProductTag.bulkCreate(newProductTags),
       ]);
-    })
-    .then((updatedProductTags) => res.json(updatedProductTags))
+    }
+    res.json(product)
+  })
+    // .then((updatedProductTags) => res.json(updatedProductTags))
     .catch((err) => {
       console.error('this is error----------------', err.message);
       res.status(400).json(err);
